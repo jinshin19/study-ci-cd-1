@@ -1,0 +1,5 @@
+name: Basic CI/CD
+
+on:
+  push:
+    branches: 'main'
