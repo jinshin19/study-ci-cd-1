@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-    runs-on: ${{maxtrix.os}}
+    runs-on: ${{matrix.os}}
 
     # Checkout | Clone the repo
     steps:
