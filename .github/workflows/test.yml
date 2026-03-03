@@ -5,6 +5,18 @@ on:
     branches: [main]
 
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v3
+
+  install_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Install dependencies'
+        run: npm install
+
   test:
     runs-on: ubuntu-latest
     steps:
