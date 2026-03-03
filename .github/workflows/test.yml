@@ -26,7 +26,7 @@ jobs:
 
       # Upload artifacts | Upload cloned repository to VM
       - name: 'Upload Artifacts'
-        uses: actions/artifacts@v3
+        uses: actions/upload-artifact@v3
         with:
           name: 'basic-artifact'
           path: .
