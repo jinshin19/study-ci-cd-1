@@ -5,39 +5,40 @@ on:
     branches: [main]
 
 jobs:
-  checkout:
-    runs-on: ubuntu-latest
+  # Jobs
+  checkoutAndUploadArtifacts:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{maxtrix.os}}
+
+    # Checkout | Clone the repo
     steps:
-      - name: 'Checkout code'
+      - name: Checkout Code
         uses: actions/checkout@v3
+      - run: 'Cloning the repository...'
 
-  install_dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Install dependencies'
-        run: npm install
+      # Setup node
+      - name: 'Setup Node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: npm test
+      # Upload artifacts | Upload cloned repository to VM
+      - name: 'Upload Artifacts'
+        uses: actions/artifacts@v3
+      - run: 'Uploading cloned repository...'
 
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - run: npm run build
+  # deploying-staging:
+  #   needs: build
+  #   environment: staging
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: echo "Deploying to staging..."
 
-  deploying-staging:
-    needs: build
-    environment: staging
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to staging..."
-
-  deploying-production:
-    needs: deploying-staging
-    environment: production
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to production"
+  # deploying-production:
+  # needs: deploying-staging
+  # environment: production
+  # runs-on: ubuntu-latest
+  # steps:
+  # - run: echo "Deploying to production"
