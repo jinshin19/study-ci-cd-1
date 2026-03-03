@@ -16,13 +16,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-      - run: 'Cloning the repository...'
+      - run: echo Cloning the repository...
 
       # Setup node
       - name: 'Setup Node'
         uses: actions/setup-node@v3
         with:
           node-version: 24
+      - run: echo Setting up node...
 
       # Upload artifacts | Upload cloned repository to VM
       - name: 'Upload Artifacts'
@@ -30,7 +31,7 @@ jobs:
         with:
           name: 'basic-artifact'
           path: .
-      - run: 'Uploading cloned repository...'
+      - run: echo Uploading cloned repository...
 
   # deploying-staging:
   #   needs: build
