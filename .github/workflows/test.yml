@@ -71,3 +71,5 @@ jobs:
     needs: run_build
     runs-on: ubuntu-latest
     environment: main
+    steps:
+      - run: echo Deploying to main...
