@@ -9,7 +9,7 @@ jobs:
 
   # ---------------
   # This part I will:
-  # - checkout the code, setup node, upload artifact
+  # - checkout the code, setup node, upload artifacts
   # ---------------
   checkoutAndArtifact:
     strategy:
