@@ -20,9 +20,6 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -31,6 +28,7 @@ jobs:
 
   run_test:
     needs: checkout
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -42,6 +40,9 @@ jobs:
         with:
           name: basic
           path: .
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Run test
         run: npm run test
@@ -59,6 +60,9 @@ jobs:
         with:
           name: basic
           path: .
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Run build
         run: npm run build
