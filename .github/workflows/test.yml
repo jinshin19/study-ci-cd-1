@@ -1,104 +1,61 @@
-name: Basic CI/CD
+name: Sample
 
 on:
   push:
     branches: [main]
 
 jobs:
-  # This job is about checking the created branch by dev before pushing to main
-
-  # ---------------
-  # This part I will:
-  # - checkout the code, setup node, upload artifacts
-  # ---------------
-  checkoutAndArtifact:
+  checkout:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [20]
     runs-on: ${{matrix.os}}
 
     steps:
-      # Checkout Code
-      - name: Checkout Code | Clone the repository
+      - name: Checkout
         uses: actions/checkout@v3
-      - run: echo Repository cloned successfully...
 
-      # # Setup Node
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{matrix.node}}
-      # - run: echo Node version ${{matrix.node}} setup successfully...
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
 
-      # # Upload Artifacts
-      # - name: Upload Artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: basic-artifact
-      #     path: .
-      # - run: echo Artifacts uploaded successfully...
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: basic
+          path: .
 
-  # ---------------
-  # This part I will:
-  # - Install dependencies
-  # ---------------
-  # installDependencies:
-  #   needs: checkoutAndArtifact
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #   runs-on: ${{matrix.os}}
+  install_dependencies:
+    needs: checkout
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{matrix.os}}
 
-  #   steps:
-  #     # Download Artifacts
-  #     - name: Download Artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: basic-artifact
-  #         path: .
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: basic
+          path: .
 
-  #     # Install Dependencies
-  #     - name: Install Dependencies
-  #       run: npm run install
-  #     - run: echo Dependencies installed successfully...
+      - name: Install dependencies
+        run: npm install
 
-  # # ---------------
-  # # This part I will:
-  # # - Run Test
-  # # ---------------
-  # runTest:
-  #   needs: installDependencies
+  run_test:
+    needs: install_dependencies
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{matrix.os}}
 
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #   runs-on: ${{matrix.os}}
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: basic
+          path: .
 
-  #   steps:
-  #     # Download Artifact
-  #     - name: Download Artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: basic-artifact
-  #         path: .
-  #     - run: echo Artifact download successfully...
-
-  #     # Run test
-  #     - name: Run test
-  #       run: npm run test
-  #     - run: echo Pass test
-
-  # deploying-staging:
-  #   needs: build
-  #   environment: staging
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: echo "Deploying to staging..."
-
-  # deploying-production:
-  # needs: deploying-staging
-  # environment: production
-  # runs-on: ubuntu-latest
-  # steps:
-  # - run: echo "Deploying to production"
+      - name: Run test
+        run: npm run test
