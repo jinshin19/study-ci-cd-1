@@ -43,51 +43,51 @@ jobs:
   # This part I will:
   # - Install dependencies
   # ---------------
-  installDependencies:
-    needs: checkoutAndArtifact
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
+  # installDependencies:
+  #   needs: checkoutAndArtifact
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #   runs-on: ${{matrix.os}}
 
-    steps:
-      # Download Artifacts
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: basic-artifact
-          path: .
+  #   steps:
+  #     # Download Artifacts
+  #     - name: Download Artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: basic-artifact
+  #         path: .
 
-      # Install Dependencies
-      - name: Install Dependencies
-        run: npm run install
-      - run: echo Dependencies installed successfully...
+  #     # Install Dependencies
+  #     - name: Install Dependencies
+  #       run: npm run install
+  #     - run: echo Dependencies installed successfully...
 
-  # ---------------
-  # This part I will:
-  # - Run Test
-  # ---------------
-  runTest:
-    needs: installDependencies
+  # # ---------------
+  # # This part I will:
+  # # - Run Test
+  # # ---------------
+  # runTest:
+  #   needs: installDependencies
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #   runs-on: ${{matrix.os}}
 
-    steps:
-      # Download Artifact
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: basic-artifact
-          path: .
-      - run: echo Artifact download successfully...
+  #   steps:
+  #     # Download Artifact
+  #     - name: Download Artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: basic-artifact
+  #         path: .
+  #     - run: echo Artifact download successfully...
 
-      # Run test
-      - name: Run test
-        run: npm run test
-      - run: echo Pass test
+  #     # Run test
+  #     - name: Run test
+  #       run: npm run test
+  #     - run: echo Pass test
 
   # deploying-staging:
   #   needs: build
